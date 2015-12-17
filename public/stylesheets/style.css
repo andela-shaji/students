@@ -6,3 +6,12 @@ body {
 a {
   color: #00B7FF;
 }
+
+#userlist {
+  padding-top: 100px;
+  width: 60%;
+}
+
+#buttonEdit {
+  margin: 10px;
+}
