@@ -1,14 +1,82 @@
 var express = require('express');
 var router = express.Router();
-
+var Student = require('../model/student');
 
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', {
-    title: 'Express'
+router.get('/', function(req, res) {
+  res.status(200).json({
+    message: 'root of student API'
   });
 });
 
+
+router.route('/students')
+  .post(function(req, res) {
+
+    var student = new Student();
+    student.firstname = req.body.firstname;
+    student.lastname = req.body.lastname;
+    student.email = req.body.email;
+
+
+    student.save(function(err) {
+      if (err)
+        res.send(err);
+
+      res.json({
+        message: 'Student created!'
+      });
+
+    });
+
+  })
+  .get(function(req, res) {
+    Student.find(function(err, students) {
+      if (err)
+        res.send(err);
+
+      res.json(students);
+    });
+  });
+
+router.route('/students/:student_id')
+  .get(function(req, res) {
+    Student.findById(req.params.student_id, function(err, student) {
+      if (err)
+        res.send(err);
+
+      res.json(student);
+    });
+  })
+  .put(function(req, res) {
+    Student.findById(req.params.student_id, function(err, student) {
+      if (err)
+        res.send(err);
+
+      student.firstname = req.body.firstname;
+      student.lastname = req.body.lastname;
+      student.email = req.body.email; //update student info
+
+      //save the student
+      student.save(function(err) {
+        if (err)
+          res.send(err);
+
+        res.json({
+          message: 'Student Information Updated!!'
+        });
+      });
+    });
+  })
+  .delete(function(req, res) {
+
+    Student.findByIdAndRemove(req.params.student_id, req.body, function(err, post) {
+      if (err) return next(err);
+      res.json(post, {
+        message: 'Successfully deleted!'
+      });
+    });
+  });
 
 module.exports = router;

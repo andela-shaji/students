@@ -2,10 +2,12 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
 
+var db = 'mongodb://root10:password10@ds033175.mongolab.com:33175/students';
+mongoose.connect(db);
 
 var routes = require('./routes/index');
-var students = require('./routes/students');
 
 var app = express();
 
@@ -21,7 +23,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
-app.use('/students', students);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -45,7 +47,6 @@ if (app.get('env') === 'development') {
 }
 
 // production error handler
-// no stacktraces leaked to student
 app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error', {
