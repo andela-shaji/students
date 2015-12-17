@@ -25,7 +25,9 @@ router.route('/students')
         res.send(err);
 
       res.json({
-        message: 'Student created!'
+        firstname: student.firstname,
+        lastname: student.lastname,
+        email: student.email
       });
 
     });
