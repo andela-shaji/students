@@ -76,7 +76,7 @@ router.route('/students/:student_id')
     Student.findByIdAndRemove(req.params.student_id, req.body, function(err, post) {
       if (err) return next(err);
       res.json(post, {
-        message: 'Successfully deleted!'
+        message: 'Successfully deleted student!'
       });
     });
   });
