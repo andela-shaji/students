@@ -53,22 +53,23 @@ router.route('/students/:student_id')
   })
   .put(function(req, res) {
     Student.findById(req.params.student_id, function(err, student) {
-      if (err)
+      if (err) {
         res.send(err);
+      } else {
+        student.firstname = req.body.firstname;
+        student.lastname = req.body.lastname;
+        student.email = req.body.email; //update student info
 
-      student.firstname = req.body.firstname;
-      student.lastname = req.body.lastname;
-      student.email = req.body.email; //update student info
+        //save the student
+        student.save(function(err) {
+          if (err)
+            res.send(err);
 
-      //save the student
-      student.save(function(err) {
-        if (err)
-          res.send(err);
-
-        res.json({
-          message: 'Student Information Updated!!'
+          res.json({
+            message: 'Student Information Updated!!'
+          });
         });
-      });
+      }
     });
   })
   .delete(function(req, res) {

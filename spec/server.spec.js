@@ -1,6 +1,6 @@
 var request = require('request');
 var faker = require('faker');
-var url = 'https://su-students.herokuapp.com/';
+var url = 'http://localhost:3000/';
 
 describe("Student API test", function() {
   describe("GET /", function() {
